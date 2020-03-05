@@ -21,6 +21,7 @@ echo "- Install ODL Sodium -"
 
 # Configure ODL
 echo "- Configuring ODL -"
+/sbin/setenforce 0
 /bin/sed -i 's/odl/root/g' /usr/lib/systemd/system/opendaylight.service
 /bin/systemctl enable opendaylight
 /bin/systemctl start opendaylight
