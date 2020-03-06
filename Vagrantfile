@@ -8,8 +8,7 @@ Vagrant.configure("2") do |config|
 	odl.vm.provision "shell", path: "./provision-odl.sh"
 	end
   config.vm.define "mn" do |mn|
-	mn.vm.box = "fedora/31-cloud-base"
-	mn.vm.box_version = "31.20191023.0"
+	mn.vm.box = "debian/stretch64"
 	mn.vm.network "private_network", ip: "10.0.0.18", netmask:"255.255.255.0"
 	mn.vm.provision "shell", path: "./provision-mn.sh"
 	end
