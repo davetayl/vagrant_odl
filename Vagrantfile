@@ -12,6 +12,5 @@ Vagrant.configure("2") do |config|
 	mn.vm.box_version = "31.20191023.0"
 	mn.vm.network "private_network", ip: "10.0.0.18", netmask:"255.255.255.0"
 	mn.vm.provision "shell", path: "./provision-mn.sh"
-	mn.vm.provision :shell, :inline => "/usr/bin/python ./python-mn.py"
 	end
 end
