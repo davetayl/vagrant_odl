@@ -1,17 +1,31 @@
 #!/usr/bin/python3
 
-"""
-Create a 1024-host network, and run the CLI on it.
-If this fails because of kernel limits, you may have
-to adjust them, e.g. by adding entries to /etc/sysctl.conf
-and running sysctl -p. Check util/sysctl_addon.
-"""
+import sys
+import mininet
 
-from mininet.cli import CLI
-from mininet.log import setLogLevel
-from mininet.node import OVSSwitch
-from mininet.topolib import TreeNet
+# Make sure there is only one argument passed
+with if len(sys.argv = 1):
+    topoSel = sys.argv[0]
+    except:
+        print("Syntax: python-mn.py <tree2|tree4|tree6>")
 
-if __name__ == '__main__':
-    setLogLevel( 'info' )
-    network = TreeNet( depth=3, fanout=1, switch=OVSSwitch )
+# Define available topologies
+topoDict = {
+    tree2: "depth=1,fanout=2",
+    tree4: "depth=2,fanout=2",
+    tree6: "depth=2,fanout=2"
+    }
+print(topoDict)
+"""
+# Construct net objects
+myTopo = mininet.topolib(topoDict[topoSel])
+myNet = mininet.net(topo=myTopo)
+
+# Start the mininet
+myNet.start()
+
+
+h1, h4  = myNet.hosts[0], myNet.hosts[3]
+print h1.cmd('ping -c1 %s' % h4.IP())
+myNet.stop()
+"""
