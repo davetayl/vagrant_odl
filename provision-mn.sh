@@ -26,12 +26,13 @@ fi
 
 # Base OS update
 echo "- OS Update -"
-/usr/bin/apt-get -y update # > /dev/null 2>&1
-/usr/bin/apt-get -y upgrade
+/usr/bin/apt -y update # > /dev/null 2>&1
+/usr/bin/apt -y upgrade
+/usr/bun/apt autoremove
 
 # Install tools
 echo "- Install tools -"
-/usr/bin/apt-get -y install net-tools git wget
+/usr/bin/apt -y install net-tools git wget
 
 # Install MN
 echo "- Install MN -"
@@ -42,7 +43,7 @@ echo "- Install MN -"
 # Configure MN
 echo "- Configuring MN -"
 /usr/bin/wget https://raw.githubusercontent.com/davetayl/vagrant_odl/master/python-mn.py
-/usr/bin/python ./python-mn.py &
+/usr/bin/python ./python-mn.py tree2 &
  
 # Test Mininet
 /usr/local/bin/mn --test pingall

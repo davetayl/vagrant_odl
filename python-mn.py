@@ -4,10 +4,11 @@ import sys
 import mininet
 
 # Make sure there is only one argument passed
-with if len(sys.argv = 1):
+if len(sys.argv) == 1:
     topoSel = sys.argv[0]
-    except:
-        print("Syntax: python-mn.py <tree2|tree4|tree6>")
+    else:
+        except:
+            print("Syntax: python-mn.py <tree2|tree4|tree6>")
 
 # Define available topologies
 topoDict = {
