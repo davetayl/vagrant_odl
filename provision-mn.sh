@@ -2,17 +2,18 @@
 
 # Configure script
 set -e # Stop script execution on any error
+echo ""; echo "-----------------------------------------"
 
 # Configure variables
-echo "- Set Variables -"
 MYHOST=mndev
 TESTPOINT=google.com
-TOPOLOGY=tree
+TOPOLOGY=tree4 # Options tree2, tree4, tree6
+echo "- Variables set -"
 
 # Set system name
-echo "- Set Name -"
 hostnamectl set-hostname $MYHOST > /dev/null 2>&1
-/bin/sed -i "s/stretch/$MYHOST/g" /etc/hosts > /dev/null 2>&1
+sed -i "s/stretch/$MYHOST/g" /etc/hosts > /dev/null 2>&1
+echo "- Name set -"
 
 # Test internet connectivity
 ping -q -c5 $TESTPOINT > /dev/null
@@ -25,29 +26,30 @@ else
 fi
 
 # Base OS update
-echo "- OS Update -"
-/usr/bin/apt -y update # > /dev/null 2>&1
-/usr/bin/apt -y upgrade
-/usr/bun/apt autoremove
+apt-get -y update > /dev/null 2>&1
+apt-get -y upgrade > /dev/null 2>&1
+apt -y autoremove > /dev/null 2>&1
+echo "- OS Updated -"
 
 # Install tools
-echo "- Install tools -"
-/usr/bin/apt -y install net-tools git wget
+apt-get -y install net-tools git wget vim > /dev/null 2>&1
+echo "- Tools installed -"
+
 
 # Install MN
-echo "- Install MN -"
-/bin/rm -fR /usr/local/mininet
-/usr/bin/git clone git://github.com/mininet/mininet /usr/local/mininet
-/usr/local/mininet/util/install.sh -a
+rm -fR /local/mininet > /dev/null 2>&1
+git clone git://github.com/mininet/mininet /local/mininet > /dev/null 2>&1
+/local/mininet/util/install.sh -a > /dev/null 2>&1
+echo "- Mininet installed -"
 
 # Configure MN
-echo "- Configuring MN -"
-/usr/bin/wget https://raw.githubusercontent.com/davetayl/vagrant_odl/master/python-mn.py
-/usr/bin/python ./python-mn.py tree2 &
- 
-# Test Mininet
-/usr/local/bin/mn --test pingall
+wget https://raw.githubusercontent.com/davetayl/vagrant_odl/master/python-mn.py > /dev/null 2>&1
+python ./python-mn.py $TOPOLOGY &
+echo "- Mininet $TOPOLOGY topology configured -"
 
-echo "----------------------------"
-echo "Sweet bro, you're up as bro!"
-echo "----------------------------"
+# Test Mininet
+#/localmn --test pingall
+
+echo "-----------------------------------------"
+echo "With great power comes great opportunity!"
+echo "-----------------------------------------"

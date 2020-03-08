@@ -1,32 +1,30 @@
-#!/usr/bin/python3
+#!/usr/bin/python
+# Mininet currently only works with python 2
 
 import sys
-import mininet
+from mininet.net import Mininet
+from mininet.topolib import TreeTopo
+from mininet.cli import CLI
+from mininet.node import Controller, OVSKernelSwitch, RemoteController
 
 # Make sure there is only one argument passed
-if len(sys.argv) == 1:
-    topoSel = sys.argv[0]
-    else:
-        except:
-            print("Syntax: python-mn.py <tree2|tree4|tree6>")
+if len(sys.argv) == 2:
+    topoSel = sys.argv[1]
+else:
+    sys.exit("Syntax: python-mn.py <tree2|tree4|tree6>")
 
 # Define available topologies
 topoDict = {
-    tree2: "depth=1,fanout=2",
-    tree4: "depth=2,fanout=2",
-    tree6: "depth=2,fanout=2"
+    "tree2": [1,2],
+    "tree4": [2,2],
+    "tree6": [3,2]
     }
-print(topoDict)
-"""
+
 # Construct net objects
-myTopo = mininet.topolib(topoDict[topoSel])
-myNet = mininet.net(topo=myTopo)
+myTopo = TreeTopo(depth=topoDict[topoSel][0],fanout=topoDict[topoSel][1])
+myNet = Mininet(controller=RemoteController, switch=OVSKernelSwitch, topo=myTopo)
+c0 = myNet.addController('c0', controller=RemoteController, ip="10.0.0.17", port=6633)
 
 # Start the mininet
 myNet.start()
-
-
-h1, h4  = myNet.hosts[0], myNet.hosts[3]
-print h1.cmd('ping -c1 %s' % h4.IP())
-myNet.stop()
-"""
+CLI(myNet)
