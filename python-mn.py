@@ -23,8 +23,10 @@ topoDict = {
 # Construct net objects
 myTopo = TreeTopo(depth=topoDict[topoSel][0],fanout=topoDict[topoSel][1])
 myNet = Mininet(controller=RemoteController, switch=OVSKernelSwitch, topo=myTopo)
-c0 = myNet.addController('c0', controller=RemoteController, ip="10.0.0.17", port=6633)
+odl = myNet.addController('odl', controller=RemoteController, ip="10.0.0.17", port=6633)
 
 # Start the mininet
 myNet.start()
-CLI(myNet)
+
+# Enable CLI for degugging
+# CLI(myNet)

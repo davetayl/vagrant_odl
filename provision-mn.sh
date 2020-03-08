@@ -10,13 +10,8 @@ TESTPOINT=google.com
 TOPOLOGY=tree4 # Options tree2, tree4, tree6
 echo "- Variables set -"
 
-# Set system name
-hostnamectl set-hostname $MYHOST > /dev/null 2>&1
-sed -i "s/stretch/$MYHOST/g" /etc/hosts > /dev/null 2>&1
-echo "- Name set -"
-
 # Test internet connectivity
-ping -q -c5 $TESTPOINT > /dev/null
+ping -q -c5 $TESTPOINT > /dev/null 2>&1
  
 if [ $? -eq 0 ]
 then
@@ -24,6 +19,11 @@ then
 else
 	echo "- Internet failed -"
 fi
+
+# Set system name
+hostnamectl set-hostname $MYHOST > /dev/null 2>&1
+sed -i "s/stretch/$MYHOST/g" /etc/hosts > /dev/null 2>&1
+echo "- Name set -"
 
 # Base OS update
 apt-get -y update > /dev/null 2>&1
@@ -46,9 +46,6 @@ echo "- Mininet installed -"
 wget https://raw.githubusercontent.com/davetayl/vagrant_odl/master/python-mn.py > /dev/null 2>&1
 python ./python-mn.py $TOPOLOGY &
 echo "- Mininet $TOPOLOGY topology configured -"
-
-# Test Mininet
-#/localmn --test pingall
 
 echo "-----------------------------------------"
 echo "With great power comes great opportunity!"

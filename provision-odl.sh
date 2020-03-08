@@ -1,31 +1,49 @@
 #!/usr/bin/env bash
 
+# Configure script
+set -e # Stop script execution on any error
+echo ""; echo "-----------------------------------------"
+
+# Configure variables
+MYHOST=odldev
+TESTPOINT=google.com
+echo "- Variables set -"
+
+# Test internet connectivity
+ping -q -c5 $TESTPOINT > /dev/null 2>&1
+ 
+if [ $? -eq 0 ]
+then
+	echo "- Internet Ok -"	
+else
+	echo "- Internet failed -"
+fi
+
 # Set system name
-echo "- Set Name -"
-hostnamectl set-hostname odldev > /dev/null 2>&1
-/bin/sed -i "s/debianvb/odldev/g" /etc/hosts > /dev/null 2>&1
+hostnamectl set-hostname $MYHOST > /dev/null 2>&1
+/bin/sed -i "s/debianvb/$MYHOST/g" /etc/hosts > /dev/null 2>&1
+echo "- Name set -"
 
 # Base OS update
-echo "- OS Update -"
 /bin/yum -y update > /dev/null 2>&1
+echo "- OS Updated -"
 
 
 # Install tools
-echo "- Install tools -"
-/bin/yum -y install net-tools
+/bin/yum -y install net-tools > /dev/null 2>&1
+echo "- Tools installed -"
 
 # Install ODL
-echo "- Install ODL Sodium -"
-/bin/yum -y localinstall https://cbs.centos.org/repos/nfv7-opendaylight-112-release/x86_64/os/Packages/opendaylight-11.2.0-1.el7.noarch.rpm
-# /bin/yum -y install opendaylight
+/bin/yum -y localinstall https://cbs.centos.org/repos/nfv7-opendaylight-112-release/x86_64/os/Packages/opendaylight-11.2.0-1.el7.noarch.rpm > /dev/null 2>&1
+echo "- OpenDaylight (Sodium) installed -"
 
 # Configure ODL
-echo "- Configuring ODL -"
-/sbin/setenforce 0
-/bin/sed -i 's/odl/root/g' /usr/lib/systemd/system/opendaylight.service
-/bin/systemctl enable opendaylight
-/bin/systemctl start opendaylight
+/sbin/setenforce 0 > /dev/null 2>&1
+/bin/sed -i 's/odl/root/g' /usr/lib/systemd/system/opendaylight.service > /dev/null 2>&1
+/bin/systemctl enable opendaylight > /dev/null 2>&1
+/bin/systemctl start opendaylight > /dev/null 2>&1
+echo "- OpenDaylight server configured -"
 
-echo "----------------------------"
-echo "Sweet bro, you're up as bro!"
-echo "----------------------------"
+echo "-----------------------------------------"
+echo "With great power comes great opportunity!"
+echo "-----------------------------------------"
