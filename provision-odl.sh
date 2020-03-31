@@ -34,15 +34,15 @@ echo "- OS Updated -"
 echo "- Tools installed -"
 
 # Install ODL
-/bin/yum -y localinstall https://cbs.centos.org/repos/nfv7-opendaylight-112-release/x86_64/os/Packages/opendaylight-11.2.0-1.el7.noarch.rpm > /dev/null 2>&1
+/bin/yum -y localinstall https://cbs.centos.org/kojifiles/packages/opendaylight/11.2.0/1.el7/noarch/opendaylight-11.2.0-1.el7.noarch.rpm > /dev/null 2>&1
 echo "- OpenDaylight (Sodium) installed -"
 
 # Configure ODL
-/sbin/setenforce 0
-/bin/sed -i 's/odl/root/g' /usr/lib/systemd/system/opendaylight.service
-/bin/sed -i 's/a126e2e0-3c77-4543-be57-883c02d3759e/a126e2e0-3c77-4543-be57-883c02d3759e,odl-controller-model-topology,odl-netconf-api,odl-openflowjava-protocol,odl-openflowplugin-app-arbitratorreconciliation,odl-openflowplugin-app-config-pusher,odl-openflowplugin-app-forwardingrules-manager,odl-openflowplugin-app-reconciliation-framework,odl-openflowplugin-app-topology,odl-openflowplugin-app-topology-manager,odl-openflowplugin-flow-services,odl-openflowplugin-flow-services-rest,odl-openflowplugin-libraries,odl-openflowplugin-nsf-model,odl-openflowplugin-southbound,odl-restconf/g' /opt/opendaylight/etc/org.apache.karaf.features.cfg
-/bin/systemctl enable opendaylight
-/bin/systemctl start opendaylight
+/sbin/setenforce 0 > /dev/null 2>&1
+/bin/sed -i 's/odl/root/g' /usr/lib/systemd/system/opendaylight.service > /dev/null 2>&1
+/bin/sed -i 's/a126e2e0-3c77-4543-be57-883c02d3759e/a126e2e0-3c77-4543-be57-883c02d3759e,odl-controller-model-topology,odl-netconf-api,odl-openflowjava-protocol,odl-openflowplugin-app-arbitratorreconciliation,odl-openflowplugin-app-config-pusher,odl-openflowplugin-app-forwardingrules-manager,odl-openflowplugin-app-reconciliation-framework,odl-openflowplugin-app-topology,odl-openflowplugin-app-topology-manager,odl-openflowplugin-flow-services,odl-openflowplugin-flow-services-rest,odl-openflowplugin-libraries,odl-openflowplugin-nsf-model,odl-openflowplugin-southbound,odl-restconf/g' /opt/opendaylight/etc/org.apache.karaf.features.cfg > /dev/null 2>&1
+/bin/systemctl enable opendaylight > /dev/null 2>&1
+/bin/systemctl start opendaylight > /dev/null 2>&1
 echo "- OpenDaylight server configured -"
 echo ""
 echo "Log in with \"ssh -p 8101 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no karaf@localhost\""
